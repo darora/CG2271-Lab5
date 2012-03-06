@@ -1,28 +1,34 @@
 #include <stdio.h>
 #include <pthread.h>
 // Global variable.
+
+#define NUM_THREADS 10
+
 int ctr=0;
-pthread_t thread[10];
+pthread_t thread[NUM_THREADS];
 
 void *child(void *t)
 {
-// Print out the parameter passed in, and the current value of ctr.
-printf("I am child %d. Ctr=%d\n", t, ctr);
-// Then increment ctr
-ctr++;
-pthread_exit(NULL);
+	// Print out the parameter passed in, and the current value of ctr.
+	printf("I am child %d. Ctr=%d\n", t, ctr);
+	// Then increment ctr
+	ctr++;
+	pthread_exit(NULL);
 }
 
 int main()
 {
-int i;
-// Initialize ctr
-ctr=0;
-// Create the threads
-for(i=0; i<10; i++)
-pthread_create(&thread[i], NULL, child, (void *) i);
-// And print out ctr
-printf("Value of ctr=%d\n", ctr);
-return 0;
+	int i;
+	// Initialize ctr
+	ctr=0;
+	// Create the threads
+	for(i=0; i<10; i++)
+	    pthread_create(&thread[i], NULL, child, (void *) i);
+
+    //Wait on the last thread created to finish executing first
+    pthread_join(thread[NUM_THREADS-1], NULL);
+	// And print out ctr
+	printf("Value of ctr=%d\n", ctr);
+	return 0;
 }
 
