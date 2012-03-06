@@ -22,7 +22,7 @@ int main()
 	// Initialize ctr
 	ctr=0;
 	// Create the threads
-	for(i=0; i<10; i++) {
+	for(i=0; i<NUM_THREADS; i++) {
 	    pthread_create(&thread[i], NULL, child, (void *) i);
         //If the join op fails, quit & return an error
         if (pthread_join(thread[i], NULL))
