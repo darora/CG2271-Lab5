@@ -22,11 +22,12 @@ int main()
 	// Initialize ctr
 	ctr=0;
 	// Create the threads
-	for(i=0; i<10; i++)
+	for(i=0; i<10; i++) {
 	    pthread_create(&thread[i], NULL, child, (void *) i);
-
-    //Wait on the last thread created to finish executing first
-    pthread_join(thread[NUM_THREADS-1], NULL);
+        //If the join op fails, quit & return an error
+        if (pthread_join(thread[i], NULL))
+            return 1;
+    }
 	// And print out ctr
 	printf("Value of ctr=%d\n", ctr);
 	return 0;
